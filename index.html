@@ -60,11 +60,27 @@ async function loadTide(){
     return {time,height,kind};
   }).filter(x=>/^\d{2}:\d{2}$/.test(x.time)&&Number.isFinite(x.height)).sort((a,b)=>a.time.localeCompare(b.time));
   if(!items.length)throw new Error('API 연결은 됐지만 오늘 예보 항목을 찾지 못했습니다. 날짜·지점 코드·응답 항목명을 확인해 주세요.');
-  currentTideEvents=items;recommend();$('tideResult').innerHTML=items.map(x=>'<div class="tide-event"><small>'+x.kind+'</small><strong>'+x.time+'</strong><div>'+Math.round(x.height)+' cm</div></div>').join('');
+  currentTideEvents=items;tideByStation[station.code]=items;await loadOtherTideStations(key,ymd,station.code);recommend();$('tideResult').innerHTML=items.map(x=>'<div class="tide-event"><small>'+x.kind+'</small><strong>'+x.time+'</strong><div>'+Math.round(x.height)+' cm</div></div>').join('');
   setTideStatus('오늘 '+items.length+'건의 조석 예보를 불러왔습니다. (한국시간)');
  }catch(e){currentTideEvents=[];recommend();const msg=e instanceof TypeError?'브라우저에서 API에 연결하지 못했습니다. CORS 차단 또는 네트워크 문제일 수 있습니다.':(e.message||'인증키와 API 이용 신청을 확인해 주세요.');setTideStatus('물때 조회 실패: '+msg+' 공공데이터포털의 활용신청 승인 상태와 일반 인증키를 확인하세요.');$('tideResult').innerHTML=''}
 }
-let currentTideEvents=[];
+let currentTideEvents=[];const tideByStation={};
+async function loadOtherTideStations(key,ymd,skipCode){
+ for(const st of Object.values(tideStations)){
+  if(st.code===skipCode||tideByStation[st.code])continue;
+  try{
+   let normalized=key;try{normalized=decodeURIComponent(key)}catch(e){}
+   const u=new URL('https://apis.data.go.kr/1192136/tideFcstHghLw/GetTideFcstHghLwApiService');
+   u.searchParams.set('serviceKey',normalized);u.searchParams.set('obsCode',st.code);u.searchParams.set('reqDate',ymd);u.searchParams.set('numOfRows','300');u.searchParams.set('type','json');
+   const r=await fetch(u.toString());if(!r.ok)continue;const txt=await r.text();let d;try{d=JSON.parse(txt)}catch(e){continue}
+   const resp=d.response||d,body=resp.body||d.body||{},raw=body.items?.item??body.items??[];
+   const arr=(Array.isArray(raw)?raw:raw?[raw]:[]).map(x=>{const time=tideTime(x.predcDt??x.predcDateTime??x.tideTime??''),height=Number(x.predcTdlvVl??x.predcTdlv??x.tdlv??x.height),se=String(x.extrSe??x.tideType??x.predcSe??'');return {time,height,kind:/고|high|만조/i.test(se)||se==='1'?'만조':/저|low|간조/i.test(se)||se==='2'?'간조':'조석'}}).filter(x=>/^\d{2}:\d{2}$/.test(x.time)&&Number.isFinite(x.height)).sort((a,b)=>a.time.localeCompare(b.time));
+   if(arr.length)tideByStation[st.code]=arr;
+  }catch(e){}
+ }
+}
+
+const spotTideStation={'외옹치항 주변':'DT_0012','속초항 주변':'DT_0012','동산항 주변':'SO_0732','남애항 주변':'SO_0732','아야진항 주변':'SO_1276','거진항 주변':'SO_1276','대진항 주변':'SO_1276'};
 const spotCoords={
 '외옹치항 주변':[38.190,128.608],'속초항 주변':[38.207,128.598],
 '동산항 주변':[38.026,128.761],'남애항 주변':[38.027,128.714],
@@ -84,7 +100,7 @@ function bestTimeFor(s,f,t){
  if(t==='찌낚시')return shift(dawn,-30)+'–'+shift(dawn,120)+' · '+shift(dusk,-120)+'–'+shift(dusk,30);
  return shift(dawn,-45)+'–'+shift(dawn,75)+' · '+shift(dusk,-75)+'–'+shift(dusk,45);
 }
-function tideAdviceText(){const nowHM=new Date().toTimeString().slice(0,5),nextTide=currentTideEvents.find(x=>x.time>=nowHM);return currentTideEvents.length?(nextTide?'다음 '+nextTide.kind+' '+nextTide.time+' · 전후 1~2시간은 참고 공략 시간':'오늘 조석 시각이 지났습니다. 내일 물때를 확인하세요.'):'물때 미연동 — 조석 API 연결 후 표시됩니다.'}
+function tideAdviceText(s){const events=tideByStation[spotTideStation[s.name]]||currentTideEvents;const nowHM=new Date().toTimeString().slice(0,5),nextTide=events.find(x=>x.time>=nowHM);return events.length?(nextTide?'다음 '+nextTide.kind+' '+nextTide.time+' · 전후 1~2시간 참고':'오늘 조석 시각이 지났습니다.'):'물때 미연동 — 조석 API 연결 후 표시됩니다.'}
 function renderSpots(list,f,t){
  $('spots').innerHTML=list.map(s=>{const fc=spotForecasts[s.name]||{},wx=fc.wind==null?'예보 조회 중':('풍속 '+Math.round(fc.wind)+' km/h · 파고 '+(fc.wave==null?'N/A':fc.wave.toFixed(1)+' m'));
  const styleTip=styleTips[t]?.[f]||((t==='원투낚시')?'바닥 지형을 확인하며 채비를 천천히 끌고, 밑걸림이 심하면 투척 위치를 옮기세요.':t==='찌낚시'?'수심과 찌밑을 단계적으로 조절해 입질층을 찾고, 조류에 미끼가 자연스럽게 흐르게 하세요.':'가벼운 채비부터 시작해 바닥·중층·표층을 차례로 탐색하고 입질 수심을 기록하세요.');
