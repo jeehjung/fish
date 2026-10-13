@@ -1,14 +1,13 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#092b3a"><title>동해CAST — 동해안 낚시 가이드</title>
 <style>
-:root{--navy:#092b3a;--blue:#126782;--mint:#55d6c2;--sand:#f2eee5;--paper:#fffdf8;--ink:#132f3a;--muted:#657981;--line:#dce5e3}*{box-sizing:border-box}body{margin:0;background:var(--sand);color:var(--ink);font:15px system-ui,-apple-system,"Noto Sans KR",sans-serif}.hero{background:var(--navy);color:white;padding:28px max(20px,calc((100vw - 1000px)/2)) 35px}.brand{font-weight:900;color:var(--mint)}h1{font-size:clamp(30px,5vw,50px);line-height:1.12;letter-spacing:-.05em;margin:28px 0 12px}.hero p{color:#c4d9df;max-width:620px;line-height:1.7}.wrap{max-width:1040px;margin:auto;padding:20px 16px 40px}.panel,.spot{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:17px}.filters{display:grid;grid-template-columns:repeat(3,1fr) auto;gap:12px;align-items:end}.field label{display:block;font-size:12px;font-weight:800;margin-bottom:7px;color:var(--muted)}select,button{font:inherit;border-radius:10px;padding:12px;border:1px solid var(--line);background:white;width:100%}button{background:var(--blue);color:white;font-weight:800;border:0;cursor:pointer}.section{margin:20px 0}.section h2{font-size:18px;margin:0 0 12px}.metrics,.spots{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.metric{background:#edf5f2;border-radius:12px;padding:14px}.metric small{color:var(--muted)}.metric strong{display:block;font-size:23px;margin:8px 0}.spots{grid-template-columns:repeat(2,1fr)}.spot h3{margin:0 0 5px}.meta{font-size:12px;color:var(--muted)}.spot p{font-size:13px;line-height:1.65}.score{color:#11634f;font-weight:800}.link{color:var(--blue);font-weight:800}.note{background:#fff2d9;color:#73511d;padding:13px;border-radius:12px;font-size:12px;line-height:1.65}.status,footer{font-size:12px;color:var(--muted);line-height:1.7;margin-top:12px}.tide-events{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}.tide-event{background:#edf5f2;border-radius:10px;padding:12px}.tide-event strong{display:block;font-size:19px;margin:4px 0}.tide-event small{color:var(--muted)}.upload-box{border:1px dashed #9bb8b3;border-radius:12px;padding:14px;background:#f7fbf9}.catch-list{display:grid;gap:10px;margin-top:14px}.catch-item{border:1px solid var(--line);border-radius:12px;padding:12px;background:white}.catch-item label{display:flex;gap:10px;align-items:flex-start}.catch-item input[type=checkbox]{width:auto;margin-top:4px}.catch-item p{margin:6px 0;font-size:13px;line-height:1.6}.catch-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.catch-actions button{width:auto}.muted-btn{background:#e6efed;color:var(--ink)}@media(max-width:700px){.filters{grid-template-columns:1fr 1fr}.filters button{grid-column:1/-1}.metrics{grid-template-columns:1fr 1fr}.spots{grid-template-columns:1fr}.hero{padding:24px 20px}}
+:root{--navy:#092b3a;--blue:#126782;--mint:#55d6c2;--sand:#f2eee5;--paper:#fffdf8;--ink:#132f3a;--muted:#657981;--line:#dce5e3}*{box-sizing:border-box}body{margin:0;background:var(--sand);color:var(--ink);font:15px system-ui,-apple-system,"Noto Sans KR",sans-serif}.hero{background:var(--navy);color:white;padding:28px max(20px,calc((100vw - 1000px)/2)) 35px}.brand{font-weight:900;color:var(--mint)}h1{font-size:clamp(30px,5vw,50px);line-height:1.12;letter-spacing:-.05em;margin:28px 0 12px}.hero p{color:#c4d9df;max-width:620px;line-height:1.7}.wrap{max-width:1040px;margin:auto;padding:20px 16px 40px}.panel,.spot{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:17px}.filters{display:grid;grid-template-columns:repeat(3,1fr) auto;gap:12px;align-items:end}.field label{display:block;font-size:12px;font-weight:800;margin-bottom:7px;color:var(--muted)}select,button{font:inherit;border-radius:10px;padding:12px;border:1px solid var(--line);background:white;width:100%}button{background:var(--blue);color:white;font-weight:800;border:0;cursor:pointer}.section{margin:20px 0}.section h2{font-size:18px;margin:0 0 12px}.metrics,.spots{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.metric{background:#edf5f2;border-radius:12px;padding:14px}.metric small{color:var(--muted)}.metric strong{display:block;font-size:23px;margin:8px 0}.spots{grid-template-columns:repeat(2,1fr)}.spot h3{margin:0 0 5px}.meta{font-size:12px;color:var(--muted)}.spot p{font-size:13px;line-height:1.65}.score{color:#11634f;font-weight:800}.link{color:var(--blue);font-weight:800}.note{background:#fff2d9;color:#73511d;padding:13px;border-radius:12px;font-size:12px;line-height:1.65}.status,footer{font-size:12px;color:var(--muted);line-height:1.7;margin-top:12px}.tide-events{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}.tide-event{background:#edf5f2;border-radius:10px;padding:12px}.tide-event strong{display:block;font-size:19px;margin:4px 0}.tide-event small{color:var(--muted)}@media(max-width:700px){.filters{grid-template-columns:1fr 1fr}.filters button{grid-column:1/-1}.metrics{grid-template-columns:1fr 1fr}.spots{grid-template-columns:1fr}.hero{padding:24px 20px}}
 </style></head><body>
 <header class="hero"><div>🌊 <span class="brand">동해CAST</span> / FISHING GUIDE</div><h1>오늘 동해에서,<br><span style="color:var(--mint)">어디로 던질까요?</span></h1><p>어종과 낚시 방식에 맞춰 속초·양양·고성권 낚시 포인트를 추천합니다. 출조 전 날씨와 파고를 확인하고 안전한 자리를 골라보세요.</p></header>
 <main class="wrap"><section class="section"><h2>01. 출조 조건</h2><div class="panel"><div class="filters"><div class="field"><label for="fish">대상 어종</label><select id="fish"><option>가자미</option><option>도다리</option><option>우럭</option><option>광어</option><option>감성돔</option><option>벵에돔</option><option>고등어</option><option>학꽁치</option><option>무늬오징어</option><option>볼락</option><option>삼치</option></select></div><div class="field"><label for="style">낚시 형태</label><select id="style"><option>원투낚시</option><option>찌낚시</option><option>루어낚시</option></select></div><div class="field"><label for="area">지역</label><select id="area"><option>전체</option><option>속초</option><option>양양</option><option>고성</option></select></div><button id="go">포인트 추천 ↗</button></div><div class="status" id="status">예보를 불러오는 중…</div></div></section>
 <section class="section"><h2>02. 해상·기상 체크 <button id="refresh" style="width:auto;float:right;padding:7px 11px;font-size:12px">새로고침</button></h2><div class="metrics"><div class="metric"><small>기온</small><strong id="temp">--°</strong><small id="feel">기상 예보</small></div><div class="metric"><small>풍속</small><strong id="wind">--</strong><small id="winddir">풍향</small></div><div class="metric"><small>파고</small><strong id="wave">-- m</strong><small>해상 예보 모델값</small></div><div class="metric"><small>강수확률</small><strong id="rain">--%</strong><small id="sky">하늘 상태</small></div></div><p class="status" id="updated">Open-Meteo 공개 예보 사용</p><div class="note">안전 우선: 파고·풍속이 높거나 풍랑특보가 있으면 출조를 미루세요. 테트라포드 진입과 구명조끼 미착용은 피하고, 출입 통제 안내를 지켜주세요.</div></section>
 <section class="section"><h2>03. 추천 포인트 & 공략법</h2><p class="meta" id="summary">선택 조건에 따른 참고 추천</p><div class="spots" id="spots"></div></section>
 <section class="section"><h2>04. 오늘의 물때 <span class="meta">국립해양조사원 조석예보</span></h2><div class="panel"><div class="field"><label for="tideKey">공공데이터포털 API 인증키 (브라우저에만 저장)</label><input id="tideKey" type="password" autocomplete="off" placeholder="일반 인증키 입력 — 저장소에는 올라가지 않아요" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:10px"><div style="display:flex;gap:8px;margin-top:9px;flex-wrap:wrap"><button id="saveTideKey" style="width:auto">인증키 저장</button><button id="loadTide" style="width:auto;background:#e6efed;color:var(--ink)">물때 새로고침</button><a class="link" style="align-self:center" href="https://www.data.go.kr/data/15156018/openapi.do" target="_blank" rel="noopener">API 신청 ↗</a></div></div><p class="status" id="tideStatus">인증키를 입력하면 선택 지역의 오늘 만조·간조를 조회합니다.</p><div id="tideResult" class="tide-events"></div><p class="status">조회 지점: <span id="tideStation">속초</span>. 실제 포인트와 조석 관측 지점은 다를 수 있습니다. 물때는 참고 정보이며 출조 전 특보와 현장 상황을 확인하세요.</p></div></section>
-<section class="section"><h2>05. 카카오톡 조황 가져오기</h2><div class="panel"><p class="meta">카카오톡 대화 내보내기(.txt)를 불러와 포인트·어종·조과·채비를 추출합니다. 파일은 이 브라우저 안에서 처리하며 자동 업로드하지 않습니다. 추출 결과를 검토하고 승인한 기록만 추천에 반영됩니다.</p><div class="upload-box"><div class="field"><label for="chatFile">카카오톡 대화 내보내기 파일 (.txt)</label><input id="chatFile" type="file" accept=".txt,text/plain" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:white"></div><div class="catch-actions"><button id="analyzeChat" style="width:auto">파일 분석</button><button id="exportCatches" class="muted-btn" style="width:auto">승인 조황 백업</button><button id="clearCatches" class="muted-btn" style="width:auto">저장 조황 삭제</button></div></div><p class="status" id="chatStatus">아직 파일을 분석하지 않았습니다. 현재는 텍스트 기반 자동 추출이며, 결과를 반드시 확인해 주세요.</p><div id="chatPreview" class="catch-list"></div><div class="catch-actions" id="approveActions" style="display:none"><button id="approveCatches" style="width:auto">선택한 조황 승인 및 저장</button><button id="clearPreview" class="muted-btn" style="width:auto">분석 결과 지우기</button></div><p class="status" id="savedCatchStatus">저장된 조황: 0건</p></div></section>
 <footer>동해CAST는 출조 판단을 돕는 참고용 서비스이며 조과를 보장하지 않습니다. 날씨·파고 예보는 현장과 다를 수 있습니다. 특정 포인트의 출입 가능 여부와 조황은 방문 전 현지 관리 주체에 확인하세요.<br>Weather data: Open-Meteo · Tidal reference: Korea Hydrographic and Oceanographic Agency</footer></main>
 <script>
 const $=id=>document.getElementById(id),coords={속초:[38.207,128.591],양양:[38.075,128.619],고성:[38.38,128.467]};
@@ -22,91 +21,6 @@ const spots=[
 {name:"대진항 주변",area:"고성",types:["원투낚시","루어낚시"],fish:["가자미","도다리","광어","우럭","무늬오징어"],ground:"항 주변 및 인근 연안의 안전한 접근 구역",tip:"바닥을 읽으며 채비를 조금씩 옮기고, 에깅은 해질녘 얕은 곳에서 시작해 수심 변화를 탐색하세요.",time:"해질녘(안전 시)",q:"고성 대진항"}];
 const tips={가자미:"청갯지렁이 등 미끼로 바닥을 천천히 탐색하세요.",도다리:"모래 바닥에서 미끼를 바닥에 붙여 작은 움직임으로 유인하세요.",우럭:"안전한 발판에서 암반 가장자리를 지그헤드로 공략하세요.",광어:"모래와 암반이 만나는 지형에서 웜을 천천히 끌어주세요.",감성돔:"조류 가장자리에서 밑밥과 미끼 동조를 맞추세요.",벵에돔:"표층~중층의 회유층을 찾아 가벼운 채비를 흘리세요.",고등어:"작은 메탈이나 카드채비로 회유층을 찾아보세요.",학꽁치:"가벼운 찌와 작은 바늘로 표층을 공략하세요.",무늬오징어:"에기를 가라앉힌 뒤 저킹하고 충분히 폴링하세요.",볼락:"소형 웜으로 구조물 주변 어두운 경계를 천천히 노리세요.",삼치:"작은 메탈을 빠르게 감으며 중상층을 탐색하세요."};
 let weather={wind:0,wave:0};
-const CATCH_STORAGE="donghaecast:approved-catches:v1";let pendingCatches=[];
-function loadCatches(){try{const x=JSON.parse(localStorage.getItem(CATCH_STORAGE)||"[]");return Array.isArray(x)?x:[]}catch(e){return []}}
-function saveCatches(items){localStorage.setItem(CATCH_STORAGE,JSON.stringify(items));updateCatchStatus()}
-function updateCatchStatus(){$("savedCatchStatus").textContent="저장된 조황: "+loadCatches().length+"건 · 이 브라우저에만 저장됩니다."}
-function escapeHtml(s){return String(s??"").replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]))}
-function parseChatDate(line){const m=line.match(/(20\d{2})년\s*(\d{1,2})월\s*(\d{1,2})일/);return m?m[1]+"-"+String(m[2]).padStart(2,"0")+"-"+String(m[3]).padStart(2,"0"):null}
-function parseChatTime(t){const m=String(t||"").match(/(오전|오후)\s*(\d{1,2}):(\d{2})/);if(!m)return "";let h=Number(m[2])%12;if(m[1]==="오후")h+=12;return String(h).padStart(2,"0")+":"+m[3]}
-const spotAliases=[["외옹치항 주변",["외옹치","외옹치항"]],["속초항 주변",["속초항","속초 항"]],["동산항 주변",["동산항","동산리"]],["남애항 주변",["남애항","남애"]],["아야진항 주변",["아야진","아야진항"]],["거진항 주변",["거진항","거진"]],["대진항 주변",["대진항","대진"]]];
-const fishAliases={"가자미":["가자미"],"도다리":["도다리"],"우럭":["우럭","조피볼락"],"광어":["광어","넙치"],"감성돔":["감성돔"],"벵에돔":["벵에돔"],"고등어":["고등어"],"학꽁치":["학꽁치"],"무늬오징어":["무늬오징어","무늬","에깅"],"볼락":["볼락"],"삼치":["삼치"]};
-function extractChatMessages(text){const lines=String(text||"").replace(/\r/g,"").split("\n");let day=localDateString(),messages=[];for(const line of lines){const date=parseChatDate(line);if(date)day=date;const m=line.match(/^\[([^\]]+)\]\s*\[(오전|오후)\s*(\d{1,2}:\d{2})\]\s*(.*)$/);if(m){messages.push({sender:m[1],date:day,time:parseChatTime(m[2]+" "+m[3]),text:m[4]});continue}const alt=line.match(/^(.{1,30}?)\s*:\s*(.+)$/);if(alt&&/(잡|조과|마리|입질|낚|히트|웜|메탈|찌|원투)/.test(alt[2]))messages.push({sender:alt[1],date:day,time:"",text:alt[2]})}return messages}
-function extractCatchRecords(text){const out=[];for(const m of extractChatMessages(text)){const body=m.text,spotHit=spotAliases.find(([name,aliases])=>aliases.some(a=>body.includes(a)));if(!spotHit)continue;const fishes=Object.entries(fishAliases).filter(([fish,aliases])=>aliases.some(a=>body.includes(a))).map(([fish])=>fish);if(!fishes.length||/못\s*잡|한\s*마리도|꽝|조과\s*없|입질\s*없|안\s*나오|못\s*낚|빈손/.test(body))continue;const catchMatch=body.match(/(\d+)\s*마리/),tackle=(body.match(/(\d+(?:\.\d+)?인치\s*(?:웜|그럽)|(?:웜|메탈|미노우|에기|청갯지렁이|갯지렁이|카드채비|지그헤드|원투채비|찌낚시|원투|루어))/)||[])[0]||"",timeLabel=/(새벽|아침|오전|낮|점심|오후|저녁|해질녘|밤)/.exec(body)?.[0]||m.time||"";for(const fish of fishes)out.push({id:[m.date,spotHit[0],fish,m.sender,body].join("|"),date:m.date,spot:spotHit[0],fish,count:catchMatch?Number(catchMatch[1]):null,tackle,time:timeLabel,source:body,sender:m.sender})}return out}
-function renderCatchPreview(){const box=$("chatPreview");if(!pendingCatches.length){box.innerHTML="";$("approveActions").style.display="none";return}box.innerHTML=pendingCatches.map((x,i)=>'<div class="catch-item"><label><input type="checkbox" data-catch-index="'+i+'" checked><span><b>'+escapeHtml(x.spot)+' · '+escapeHtml(x.fish)+'</b><p>'+escapeHtml(x.date)+' · '+(x.count==null?"조과 수 미확인":escapeHtml(x.count+"마리"))+(x.time?" · "+escapeHtml(x.time):"")+(x.tackle?" · 채비 "+escapeHtml(x.tackle):"")+'</p><p>'+escapeHtml(x.source)+'</p><span class="meta">작성자: '+escapeHtml(x.sender)+' · 승인 전 내용을 확인하세요.</span></span></label></div>').join("");$("approveActions").style.display="flex"}
-function catchBonus(s,f){const records=loadCatches().filter(x=>x.spot===s.name&&x.fish===f);if(!records.length)return {score:0,text:"승인된 조황 없음"};const now=new Date();let best=0,fresh=0;for(const r of records){const age=(now-new Date((r.date||"2000-01-01")+"T12:00:00"))/86400000;if(age>=0&&age<=14)fresh++;best=Math.max(best,age<=3&&age>=0?10:age<=7&&age>=0?6:age<=14&&age>=0?3:0)}const repeat=fresh>=3?4:fresh>=2?2:0,score=Math.min(14,best+repeat);return {score,text:records.length+"건 기록 · "+(score?"조황 가산 +"+score+"점":"최근 14일 기록 없음")}}
-function localDateString(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
-
-const TIDE_KEY_STORAGE='donghaecast:khoa-service-key';
-const tideStations={속초:{code:'DT_0012',name:'속초'},양양:{code:'SO_0732',name:'남애항'},고성:{code:'SO_1276',name:'아야진항'}};
-function getTideKey(){try{return localStorage.getItem(TIDE_KEY_STORAGE)||''}catch(e){return ''}}
-function setTideStatus(msg){$('tideStatus').textContent=msg}
-function tideTime(value){const s=String(value||'');const m=s.match(/(?:T|\\s)(\\d{2}:\\d{2})/);return m?m[1]:s.slice(-5)}
-async function loadTide(){
- const area=$('area').value==='전체'?'속초':$('area').value,station=tideStations[area]||tideStations.속초;
- $('tideStation').textContent=station.name+' ('+station.code+')';
- const key=($('tideKey').value||getTideKey()).trim();
- if(!key){setTideStatus('공공데이터포털에서 조석예보 API를 신청하고 인증키를 입력해 주세요.');$('tideResult').innerHTML='';return}
- setTideStatus('오늘의 만조·간조 예보를 조회 중…');$('tideResult').innerHTML='';currentTideEvents=[];recommend();
- try{
-  let normalized=key;try{normalized=decodeURIComponent(key)}catch(e){}
-  const url=new URL('https://apis.data.go.kr/1192136/tideFcstHghLw/GetTideFcstHghLwApiService');
-  url.searchParams.set('serviceKey',normalized);url.searchParams.set('obsCode',station.code);
-  const now=new Date(),ymd=now.getFullYear()+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0');
-  url.searchParams.set('reqDate',ymd);url.searchParams.set('numOfRows','300');url.searchParams.set('type','json');
-  const res=await fetch(url.toString());const rawText=await res.text();
-  if(!res.ok)throw new Error('HTTP '+res.status+' — API 응답을 확인해 주세요.');
-  let data;try{data=JSON.parse(rawText)}catch(e){
-   const xml=new DOMParser().parseFromString(rawText,'text/xml');
-   const tag=n=>xml.getElementsByTagName(n)[0]?.textContent||'';
-   if(tag('resultCode')||tag('cmmMsgHeader'))throw new Error(tag('resultMsg')||tag('errMsg')||tag('returnAuthMsg')||tag('cmmMsgHeader')||'API가 XML 오류를 반환했습니다.');
-   throw new Error('JSON 응답이 아닙니다. 인증키의 인코딩 방식 또는 API 응답 형식을 확인해 주세요.');
-  }
-  const response=data.response||data;
-  const header=response.header||data.header||{};
-  const resultCode=String(header.resultCode??data.resultCode??'00');
-  if(resultCode!=='00')throw new Error((header.resultMsg||data.resultMsg||'API 오류')+' (코드 '+resultCode+')');
-  const body=response.body||data.body||{};
-  const raw=body.items?.item??body.items??response.items?.item??response.items??[];
-  const items=(Array.isArray(raw)?raw:raw?[raw]:[]).map(x=>{
-    const dt=x.predcDt??x.predcDateTime??x.predcYmdhms??x.tideTime??'';
-    const time=tideTime(dt),height=Number(x.predcTdlvVl??x.predcTdlv??x.tdlv??x.height);
-    const se=String(x.extrSe??x.tideType??x.predcSe??'');
-    const kind=/고|high|만조/i.test(se)||se==='1'?'만조':/저|low|간조/i.test(se)||se==='2'?'간조':'조석';
-    return {time,height,kind};
-  }).filter(x=>/^\d{2}:\d{2}$/.test(x.time)&&Number.isFinite(x.height)).sort((a,b)=>a.time.localeCompare(b.time));
-  if(!items.length)throw new Error('API 연결은 됐지만 오늘 예보 항목을 찾지 못했습니다. 날짜·지점 코드·응답 항목명을 확인해 주세요.');
-  currentTideEvents=items;tideByStation[station.code]=items;await loadOtherTideStations(key,ymd,station.code);recommend();$('tideResult').innerHTML=items.map(x=>'<div class="tide-event"><small>'+x.kind+'</small><strong>'+x.time+'</strong><div>'+Math.round(x.height)+' cm</div></div>').join('');
-  setTideStatus('오늘 '+items.length+'건의 조석 예보를 불러왔습니다. (한국시간)');
- }catch(e){currentTideEvents=[];recommend();const msg=e instanceof TypeError?'브라우저에서 API에 연결하지 못했습니다. CORS 차단 또는 네트워크 문제일 수 있습니다.':(e.message||'인증키와 API 이용 신청을 확인해 주세요.');setTideStatus('물때 조회 실패: '+msg+' 공공데이터포털의 활용신청 승인 상태와 일반 인증키를 확인하세요.');$('tideResult').innerHTML=''}
-}
-let currentTideEvents=[];const tideByStation={};
-async function loadOtherTideStations(key,ymd,skipCode){
- for(const st of Object.values(tideStations)){
-  if(st.code===skipCode||tideByStation[st.code])continue;
-  try{
-   let normalized=key;try{normalized=decodeURIComponent(key)}catch(e){}
-   const u=new URL('https://apis.data.go.kr/1192136/tideFcstHghLw/GetTideFcstHghLwApiService');
-   u.searchParams.set('serviceKey',normalized);u.searchParams.set('obsCode',st.code);u.searchParams.set('reqDate',ymd);u.searchParams.set('numOfRows','300');u.searchParams.set('type','json');
-   const r=await fetch(u.toString());if(!r.ok)continue;const txt=await r.text();let d;try{d=JSON.parse(txt)}catch(e){continue}
-   const resp=d.response||d,body=resp.body||d.body||{},raw=body.items?.item??body.items??[];
-   const arr=(Array.isArray(raw)?raw:raw?[raw]:[]).map(x=>{const time=tideTime(x.predcDt??x.predcDateTime??x.tideTime??''),height=Number(x.predcTdlvVl??x.predcTdlv??x.tdlv??x.height),se=String(x.extrSe??x.tideType??x.predcSe??'');return {time,height,kind:/고|high|만조/i.test(se)||se==='1'?'만조':/저|low|간조/i.test(se)||se==='2'?'간조':'조석'}}).filter(x=>/^\d{2}:\d{2}$/.test(x.time)&&Number.isFinite(x.height)).sort((a,b)=>a.time.localeCompare(b.time));
-   if(arr.length)tideByStation[st.code]=arr;
-  }catch(e){}
- }
-}
-
-const spotTideStation={'외옹치항 주변':'DT_0012','속초항 주변':'DT_0012','동산항 주변':'SO_0732','남애항 주변':'SO_0732','아야진항 주변':'SO_1276','거진항 주변':'SO_1276','대진항 주변':'SO_1276'};
-const spotCoords={
-'외옹치항 주변':[38.190,128.608],'속초항 주변':[38.207,128.598],
-'동산항 주변':[38.026,128.761],'남애항 주변':[38.027,128.714],
-'아야진항 주변':[38.275,128.553],'거진항 주변':[38.446,128.457],
-'대진항 주변':[38.500,128.429]};
-const spotForecasts={};
-const styleTips={
-'원투낚시':{가자미:'청갯지렁이 미끼를 바닥에 붙이고 10~15분 간격으로 회수해 입질과 바닥 변화를 확인하세요.',도다리:'모래 바닥에 채비를 안착시키고 천천히 끌어 모래먼지를 일으킨 뒤 잠시 멈추세요.',우럭:'바닥 걸림을 조심하며 모래와 암반 경계에 채비를 놓고 봉돌을 가볍게 움직이세요.',광어:'모래·자갈 경계에 던진 뒤 바닥을 천천히 끌어오세요.'},
-'찌낚시':{우럭:'발밑부터 수심을 맞추고 구조물 가장자리의 그늘과 조류가 만나는 곳을 노리세요.',감성돔:'밑밥과 미끼가 같은 속도로 흘러가도록 찌밑 수심과 봉돌을 조정하세요.',벵에돔:'가벼운 채비로 표층부터 중층까지 탐색하고 밑밥 띠와 미끼를 동조시키세요.',고등어:'수심을 조금씩 바꾸며 회유층을 찾고 입질이 없으면 채비를 가볍게 운용하세요.',학꽁치:'표층을 노리는 가벼운 찌와 작은 바늘을 쓰고 미끼를 자주 확인하세요.'},
-'루어낚시':{우럭:'지그헤드와 소형 웜으로 바닥을 두드리되 밑걸림이 생기면 무게를 낮추세요.',광어:'바닥층을 유지하는 웜 리트리브로 모래와 암반의 경계를 통과시키세요.',볼락:'소형 웜을 천천히 감으며 구조물 주변의 밝음과 어둠 경계를 공략하세요.',무늬오징어:'에기를 가라앉힌 뒤 2~3회 저킹하고 폴링 시간을 충분히 주세요.',삼치:'작은 메탈을 중상층에서 빠르게 감으며 회유 방향을 탐색하세요.',고등어:'메탈이나 웜을 중층에서 일정 속도로 운용해 회유층을 찾으세요.'}};
 function fmtTime(s){return s?String(s).slice(11,16):'--:--'}
 function bestTimeFor(s,f,t){
  const fc=spotForecasts[s.name];if(!fc||!fc.sunrise||!fc.sunset)return '06:00–08:00 · 16:00–18:00 (일출·일몰 기준 추정)';
@@ -117,12 +31,27 @@ function bestTimeFor(s,f,t){
  return shift(dawn,-45)+'–'+shift(dawn,75)+' · '+shift(dusk,-75)+'–'+shift(dusk,45);
 }
 function tideAdviceText(s){const events=tideByStation[spotTideStation[s.name]]||currentTideEvents;const nowHM=new Date().toTimeString().slice(0,5),nextTide=events.find(x=>x.time>=nowHM);return events.length?(nextTide?'다음 '+nextTide.kind+' '+nextTide.time+' · 전후 1~2시간 참고':'오늘 조석 시각이 지났습니다.'):'물때 미연동 — 조석 API 연결 후 표시됩니다.'}
+function scoreSpot(s,f){
+ const fc=spotForecasts[s.name]||{};
+ const wave=Number.isFinite(fc.wave)?fc.wave:null,wind=Number.isFinite(fc.wind)?fc.wind:null;
+ const fishMatch=s.fish.includes(f),wavePenalty=wave==null?0:(wave>1.2?-22:wave>.7?-10:0),windPenalty=wind==null?0:(wind>9?-15:wind>6?-7:0);
+ return Math.max(20,Math.min(96,55+(fishMatch?24:-15)+wavePenalty+windPenalty));
+}
+function explainSpot(s,f){
+ const fc=spotForecasts[s.name]||{},parts=[];
+ parts.push(s.fish.includes(f)?'대상 어종이 이 포인트의 등록 어종에 포함됨 (+24점)':'대상 어종이 등록 어종에 없어 어종 적합도 감점 (-15점)');
+ if(Number.isFinite(fc.wave))parts.push(fc.wave>1.2?'파고 '+fc.wave.toFixed(1)+'m로 높은 편 (-22점)':fc.wave>.7?'파고 '+fc.wave.toFixed(1)+'m로 다소 높음 (-10점)':'파고 '+fc.wave.toFixed(1)+'m로 비교적 낮음 (감점 없음)');
+ else parts.push('파고 예보 미확인 (파고 점수 조정 없음)');
+ if(Number.isFinite(fc.wind))parts.push(fc.wind>9?'풍속 '+Math.round(fc.wind)+'km/h로 강한 편 (-15점)':fc.wind>6?'풍속 '+Math.round(fc.wind)+'km/h로 다소 강함 (-7점)':'풍속 '+Math.round(fc.wind)+'km/h로 비교적 약함 (감점 없음)');
+ else parts.push('풍속 예보 미확인 (풍속 점수 조정 없음)');
+ return parts.join(' · ');
+}
 function renderSpots(list,f,t){
- $('spots').innerHTML=list.map(s=>{const fc=spotForecasts[s.name]||{},wx=fc.wind==null?'예보 조회 중':('풍속 '+Math.round(fc.wind)+' km/h · 파고 '+(fc.wave==null?'N/A':fc.wave.toFixed(1)+' m'));
+ const ranked=list.map(s=>({...s,score:scoreSpot(s,f)})).filter(s=>s.score>=50).sort((a,b)=>b.score-a.score).slice(0,4);
+ $('spots').innerHTML=ranked.length?ranked.map(s=>{const fc=spotForecasts[s.name]||{},wx=fc.wind==null?'예보 조회 중':('풍속 '+Math.round(fc.wind)+' km/h · 파고 '+(fc.wave==null?'N/A':fc.wave.toFixed(1)+' m'));
  const styleTip=styleTips[t]?.[f]||((t==='원투낚시')?'바닥 지형을 확인하며 채비를 천천히 끌고, 밑걸림이 심하면 투척 위치를 옮기세요.':t==='찌낚시'?'수심과 찌밑을 단계적으로 조절해 입질층을 찾고, 조류에 미끼가 자연스럽게 흐르게 하세요.':'가벼운 채비부터 시작해 바닥·중층·표층을 차례로 탐색하고 입질 수심을 기록하세요.');
- const weatherPenalty=(fc.wave>1.2?-22:fc.wave>.7?-10:0)+(fc.wind>9?-15:fc.wind>6?-7:0);
- const cb=catchBonus(s,f);const score=Math.max(20,Math.min(96,55+(s.fish.includes(f)?24:-15)+weatherPenalty+cb.score));
- return '<article class="spot"><div class="score">추천 '+score+'점</div><h3>'+s.area+' '+s.name+'</h3><div class="meta">'+f+' · '+t+' · '+(s.fish.includes(f)?'어종 적합':'대체 포인트')+'</div><p>'+s.ground+'</p><p><b>'+t+' 공략법</b><br>'+styleTip+' '+s.tip+'</p><p><b>'+f+' 팁</b><br>'+tips[f]+'</p><p><b>이 포인트 예보</b><br>'+wx+(fc.temp==null?'':' · 기온 '+Math.round(fc.temp)+'°')+'</p><p class="meta">🎣 최근 조황: '+escapeHtml(cb.text)+'</p><div class="meta">◷ 최적 시간(추정): '+bestTimeFor(s,f,t)+'</div><p class="meta">🌊 물때 참고: '+tideAdviceText(s)+'</p><a class="link" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(s.q)+'" target="_blank" rel="noopener">지도 열기 ↗</a></article>'}).join('');
+ const score=scoreSpot(s,f),reason=explainSpot(s,f);
+ return '<article class="spot"><div class="score">추천 '+score+'점</div><h3>'+s.area+' '+s.name+'</h3><div class="meta">'+f+' · '+t+' · '+(s.fish.includes(f)?'어종 적합':'대체 포인트')+'</div><p>'+s.ground+'</p><p><b>'+t+' 공략법</b><br>'+styleTip+' '+s.tip+'</p><p><b>'+f+' 팁</b><br>'+tips[f]+'</p><p><b>이 포인트 예보</b><br>'+wx+(fc.temp==null?'':' · 기온 '+Math.round(fc.temp)+'°')+'</p><p><b>추천 이유</b><br>'+reason+'</p><div class="meta">◷ 최적 시간(추정): '+bestTimeFor(s,f,t)+'</div><p class="meta">🌊 물때 참고: '+tideAdviceText(s)+'</p><a class="link" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(s.q)+'" target="_blank" rel="noopener">지도 열기 ↗</a></article>'}).join(''):'<div class="panel">현재 조건에서 추천 점수 50점 이상인 포인트가 없습니다. 어종·낚시 방식·지역을 바꿔 보세요.</div>';
 }
 async function loadSpotForecasts(list){
  await Promise.all(list.map(async s=>{if(spotForecasts[s.name]?.loaded)return;const c=spotCoords[s.name];if(!c)return;
@@ -133,15 +62,15 @@ async function loadSpotForecasts(list){
  spotForecasts[s.name]={loaded:true,temp:wd.current.temperature_2m,wind:wd.current.wind_speed_10m,wave:w==null?null:Number(w),sunrise:wd.daily?.sunrise?.[0],sunset:wd.daily?.sunset?.[0]};
  }catch(e){spotForecasts[s.name]={loaded:true,temp:null,wind:null,wave:null,sunrise:null,sunset:null}}}));
  const f=$('fish').value,t=$('style').value,a=$('area').value;
- const updated=spots.filter(s=>(a==="전체"||s.area===a)&&s.types.includes(t)).filter(s=>list.some(x=>x.name===s.name));
- renderSpots(updated.slice(0,4),f,t);
+ const updated=spots.filter(s=>(a==="전체"||s.area===a)&&s.types.includes(t));
+ renderSpots(updated,f,t);
 }
 function recommend(){
  const f=$('fish').value,t=$('style').value,a=$('area').value;
- const list=spots.filter(s=>(a==="전체"||s.area===a)&&s.types.includes(t)).map(s=>({...s,score:Math.max(20,Math.min(96,55+(s.fish.includes(f)?24:-15)+catchBonus(s,f).score))})).sort((x,y)=>y.score-x.score).slice(0,4);
- $('summary').textContent=f+' · '+t+' · '+a+' 지역 기준 — 각 포인트 좌표의 예보를 별도로 표시합니다.';
+ const list=spots.filter(s=>(a==="전체"||s.area===a)&&s.types.includes(t));
+ $('summary').textContent=f+' · '+t+' · '+a+' 지역 기준 — 50점 미만은 제외하고 예보 반영 점수순으로 최대 4곳을 표시합니다.';
  renderSpots(list,f,t);loadSpotForecasts(list);
 }
 async function load(){const station=$('area').value==="전체"?"속초":$('area').value,c=coords[station]||coords.속초;$('status').textContent=station+' 대표 지점 예보 조회 중…';try{const u='https://api.open-meteo.com/v1/forecast?latitude='+c[0]+'&longitude='+c[1]+'&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m&hourly=precipitation_probability&timezone=Asia%2FSeoul&forecast_days=1';const r=await fetch(u);if(!r.ok)throw Error();const d=await r.json(),v=d.current;$('temp').textContent=Math.round(v.temperature_2m)+'°';$('feel').textContent='체감 '+Math.round(v.apparent_temperature)+'° · 습도 '+v.relative_humidity_2m+'%';$('wind').textContent=Math.round(v.wind_speed_10m)+' km/h';$('winddir').textContent='풍향 '+Math.round(v.wind_direction_10m)+'°';weather.wind=v.wind_speed_10m;const i=d.hourly.time.findIndex(x=>x>=v.time);$('rain').textContent=(i<0?'--':d.hourly.precipitation_probability[i])+'%';$('sky').textContent=({0:'맑음',1:'대체로 맑음',2:'구름',3:'흐림',45:'안개',48:'안개',61:'비',63:'비',65:'강한 비',71:'눈',80:'소나기',95:'뇌우'})[v.weather_code]||'변화 가능';try{const mr=await fetch('https://marine-api.open-meteo.com/v1/marine?latitude='+c[0]+'&longitude='+c[1]+'&hourly=wave_height&timezone=Asia%2FSeoul&forecast_days=1');const md=await mr.json(),j=md.hourly.time.findIndex(x=>x>=v.time),w=j>=0?md.hourly.wave_height[j]:null;weather.wave=Number(w)||0;$('wave').textContent=w==null?'N/A':Number(w).toFixed(1)+' m'}catch(e){$('wave').textContent='N/A';weather.wave=0}$('updated').textContent=station+' · 기준 '+v.time.replace('T',' ')+' · Open-Meteo 예보값(현장과 차이 가능)';$('status').textContent='예보를 반영해 추천 점수를 갱신했습니다.';recommend()}catch(e){$('status').textContent='예보를 불러오지 못했습니다. 일반 포인트 정보로 추천합니다.';$('updated').textContent='네트워크 연결을 확인하고 다시 시도하세요.'} }
-$('analyzeChat').onclick=async()=>{const file=$('chatFile').files?.[0];if(!file){$('chatStatus').textContent='먼저 카카오톡 대화 내보내기 .txt 파일을 선택해 주세요.';return}if(file.size>15728640){$('chatStatus').textContent='파일이 15MB를 초과합니다. 대화 기간을 나눠 내보내 주세요.';return}$('chatStatus').textContent='파일을 브라우저에서 분석 중…';try{const text=await file.text();pendingCatches=extractCatchRecords(text);const saved=new Set(loadCatches().map(x=>x.id));pendingCatches=pendingCatches.filter(x=>!saved.has(x.id));renderCatchPreview();$('chatStatus').textContent=pendingCatches.length?'조황 후보 '+pendingCatches.length+'건을 찾았습니다. 실제 조과인지 확인한 뒤 승인하세요. 추출 결과는 자동 저장되지 않았습니다.':'조황 후보를 찾지 못했거나 이미 저장된 기록뿐입니다. 포인트명과 어종명이 한 메시지에 있는지 확인해 주세요.'}catch(e){$('chatStatus').textContent='파일을 읽지 못했습니다. 텍스트(.txt) 파일인지 확인해 주세요.'}};$('approveCatches').onclick=()=>{const chosen=[...$('chatPreview').querySelectorAll('input[data-catch-index]:checked')].map(el=>pendingCatches[Number(el.dataset.catchIndex)]).filter(Boolean);if(!chosen.length){$('chatStatus').textContent='승인할 기록을 하나 이상 선택해 주세요.';return}const existing=loadCatches(),ids=new Set(existing.map(x=>x.id)),fresh=chosen.filter(x=>!ids.has(x.id)).map(x=>({...x,approved:true,approvedAt:new Date().toISOString()}));try{saveCatches([...existing,...fresh]);pendingCatches=pendingCatches.filter(x=>!chosen.some(y=>y.id===x.id));renderCatchPreview();$('chatStatus').textContent=fresh.length+'건을 승인해 저장했습니다. 추천 점수를 갱신했습니다.';recommend()}catch(e){$('chatStatus').textContent='저장에 실패했습니다. 브라우저 저장 공간을 확인해 주세요.'}};$('clearPreview').onclick=()=>{pendingCatches=[];renderCatchPreview();$('chatStatus').textContent='분석 결과를 지웠습니다.'};$('clearCatches').onclick=()=>{if(!confirm('이 브라우저에 저장된 승인 조황을 모두 삭제할까요?'))return;localStorage.removeItem(CATCH_STORAGE);updateCatchStatus();recommend();$('chatStatus').textContent='저장된 조황을 삭제했습니다.'};$('exportCatches').onclick=()=>{const items=loadCatches();if(!items.length){$('chatStatus').textContent='백업할 승인 조황이 없습니다.';return}const blob=new Blob([JSON.stringify(items,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='donghaecast-approved-catches.json';a.click();URL.revokeObjectURL(url);$('chatStatus').textContent=items.length+'건의 승인 조황 백업 파일을 만들었습니다.'};updateCatchStatus();$('go').onclick=recommend;$('fish').onchange=recommend;$('style').onchange=recommend;$('area').onchange=()=>{recommend();load();loadTide()};$('refresh').onclick=load;$('saveTideKey').onclick=()=>{const key=$('tideKey').value.trim();if(!key){setTideStatus('먼저 API 인증키를 입력해 주세요.');return}try{localStorage.setItem(TIDE_KEY_STORAGE,key);setTideStatus('인증키를 이 브라우저에 저장했습니다. 물때를 조회합니다.');loadTide()}catch(e){setTideStatus('브라우저 저장에 실패했습니다. 시크릿 모드인지 확인해 주세요.')}};$('loadTide').onclick=loadTide;$('tideKey').value=getTideKey();recommend();load();loadTide();
+$('go').onclick=recommend;$('fish').onchange=recommend;$('style').onchange=recommend;$('area').onchange=()=>{recommend();load();loadTide()};$('refresh').onclick=load;$('saveTideKey').onclick=()=>{const key=$('tideKey').value.trim();if(!key){setTideStatus('먼저 API 인증키를 입력해 주세요.');return}try{localStorage.setItem(TIDE_KEY_STORAGE,key);setTideStatus('인증키를 이 브라우저에 저장했습니다. 물때를 조회합니다.');loadTide()}catch(e){setTideStatus('브라우저 저장에 실패했습니다. 시크릿 모드인지 확인해 주세요.')}};$('loadTide').onclick=loadTide;$('tideKey').value=getTideKey();recommend();load();loadTide();
 </script></body></html>
