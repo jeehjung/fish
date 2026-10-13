@@ -38,18 +38,78 @@ async function loadTide(){
   url.searchParams.set('serviceKey',normalized);url.searchParams.set('obsCode',station.code);
   const now=new Date(),ymd=now.getFullYear()+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0');
   url.searchParams.set('reqDate',ymd);url.searchParams.set('numOfRows','300');url.searchParams.set('type','json');
-  const res=await fetch(url.toString());if(!res.ok)throw new Error('HTTP '+res.status);
-  const data=await res.json();const body=data.body||data.response?.body||data;
-  if(data.resultCode&&String(data.resultCode)!=='00')throw new Error(data.resultMsg||'API 오류');
-  const raw=body.items?.item??body.items??[];
-  const items=(Array.isArray(raw)?raw:raw?[raw]:[]).map(x=>({time:tideTime(x.predcDt),height:Number(x.predcTdlvVl),kind:Number(x.extrSe)%2===1?'만조':'간조'})).filter(x=>/^\\d{2}:\\d{2}$/.test(x.time)&&Number.isFinite(x.height)).sort((a,b)=>a.time.localeCompare(b.time));
-  if(!items.length)throw new Error(body?.resultMsg||'예보 자료가 없어요. 인증키와 지점 응답을 확인해 주세요.');
+  const res=await fetch(url.toString());const rawText=await res.text();
+  if(!res.ok)throw new Error('HTTP '+res.status+' — API 응답을 확인해 주세요.');
+  let data;try{data=JSON.parse(rawText)}catch(e){
+   const xml=new DOMParser().parseFromString(rawText,'text/xml');
+   const tag=n=>xml.getElementsByTagName(n)[0]?.textContent||'';
+   if(tag('resultCode')||tag('cmmMsgHeader'))throw new Error(tag('resultMsg')||tag('errMsg')||tag('returnAuthMsg')||tag('cmmMsgHeader')||'API가 XML 오류를 반환했습니다.');
+   throw new Error('JSON 응답이 아닙니다. 인증키의 인코딩 방식 또는 API 응답 형식을 확인해 주세요.');
+  }
+  const response=data.response||data;
+  const header=response.header||data.header||{};
+  const resultCode=String(header.resultCode??data.resultCode??'00');
+  if(resultCode!=='00')throw new Error((header.resultMsg||data.resultMsg||'API 오류')+' (코드 '+resultCode+')');
+  const body=response.body||data.body||{};
+  const raw=body.items?.item??body.items??response.items?.item??response.items??[];
+  const items=(Array.isArray(raw)?raw:raw?[raw]:[]).map(x=>{
+    const dt=x.predcDt??x.predcDateTime??x.predcYmdhms??x.tideTime??'';
+    const time=tideTime(dt),height=Number(x.predcTdlvVl??x.predcTdlv??x.tdlv??x.height);
+    const se=String(x.extrSe??x.tideType??x.predcSe??'');
+    const kind=/고|high|만조/i.test(se)||se==='1'?'만조':/저|low|간조/i.test(se)||se==='2'?'간조':'조석';
+    return {time,height,kind};
+  }).filter(x=>/^\d{2}:\d{2}$/.test(x.time)&&Number.isFinite(x.height)).sort((a,b)=>a.time.localeCompare(b.time));
+  if(!items.length)throw new Error('API 연결은 됐지만 오늘 예보 항목을 찾지 못했습니다. 날짜·지점 코드·응답 항목명을 확인해 주세요.');
   currentTideEvents=items;recommend();$('tideResult').innerHTML=items.map(x=>'<div class="tide-event"><small>'+x.kind+'</small><strong>'+x.time+'</strong><div>'+Math.round(x.height)+' cm</div></div>').join('');
   setTideStatus('오늘 '+items.length+'건의 조석 예보를 불러왔습니다. (한국시간)');
- }catch(e){currentTideEvents=[];recommend();setTideStatus('물때 조회 실패: '+(e.message||'인증키, API 이용 신청, 네트워크를 확인해 주세요.'));$('tideResult').innerHTML=''}
+ }catch(e){currentTideEvents=[];recommend();const msg=e instanceof TypeError?'브라우저에서 API에 연결하지 못했습니다. CORS 차단 또는 네트워크 문제일 수 있습니다.':(e.message||'인증키와 API 이용 신청을 확인해 주세요.');setTideStatus('물때 조회 실패: '+msg+' 공공데이터포털의 활용신청 승인 상태와 일반 인증키를 확인하세요.');$('tideResult').innerHTML=''}
 }
 let currentTideEvents=[];
-function recommend(){const nowHM=new Date().toTimeString().slice(0,5),nextTide=currentTideEvents.find(x=>x.time>=nowHM),tideAdvice=currentTideEvents.length?(nextTide?'다음 '+nextTide.kind+' '+nextTide.time+' · 전후 1~2시간은 입질 확인 시간대로 참고':'오늘 조석 시각이 지났습니다. 내일 물때를 확인하세요.'):'물때 연동 전 — 만조·간조 시각을 불러오면 공략 시간에 표시됩니다.';const f=$('fish').value,t=$('style').value,a=$('area').value;const list=spots.filter(s=>(a==="전체"||s.area===a)&&s.types.includes(t)).map(s=>({...s,score:Math.max(20,Math.min(96,55+(s.fish.includes(f)?24:-15)+(weather.wave>1.2?-22:weather.wave>.7?-10:0)+(weather.wind>9?-15:weather.wind>6?-7:0)))})).sort((x,y)=>y.score-x.score).slice(0,4);$('summary').textContent=f+" · "+t+" · "+a+" 지역 기준";$('spots').innerHTML=list.map(s=>'<article class="spot"><div class="score">추천 '+s.score+'점</div><h3>'+s.area+' '+s.name+'</h3><div class="meta">'+f+' · '+t+' · '+(s.fish.includes(f)?'어종 적합':'대체 포인트')+'</div><p>'+s.ground+'</p><p><b>공략법</b><br>'+s.tip+'</p><p><b>'+f+' 팁</b><br>'+tips[f]+'</p><div class="meta">◷ '+s.time+'</div><p class="meta">🌊 물때 참고: '+tideAdvice+'</p><a class="link" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(s.q)+'" target="_blank" rel="noopener">지도 열기 ↗</a></article>').join('')}
+const spotCoords={
+'외옹치항 주변':[38.190,128.608],'속초항 주변':[38.207,128.598],
+'동산항 주변':[38.026,128.761],'남애항 주변':[38.027,128.714],
+'아야진항 주변':[38.275,128.553],'거진항 주변':[38.446,128.457],
+'대진항 주변':[38.500,128.429]};
+const spotForecasts={};
+const styleTips={
+'원투낚시':{가자미:'청갯지렁이 미끼를 바닥에 붙이고 10~15분 간격으로 회수해 입질과 바닥 변화를 확인하세요.',도다리:'모래 바닥에 채비를 안착시키고 천천히 끌어 모래먼지를 일으킨 뒤 잠시 멈추세요.',우럭:'바닥 걸림을 조심하며 모래와 암반 경계에 채비를 놓고 봉돌을 가볍게 움직이세요.',광어:'모래·자갈 경계에 던진 뒤 바닥을 천천히 끌어오세요.'},
+'찌낚시':{우럭:'발밑부터 수심을 맞추고 구조물 가장자리의 그늘과 조류가 만나는 곳을 노리세요.',감성돔:'밑밥과 미끼가 같은 속도로 흘러가도록 찌밑 수심과 봉돌을 조정하세요.',벵에돔:'가벼운 채비로 표층부터 중층까지 탐색하고 밑밥 띠와 미끼를 동조시키세요.',고등어:'수심을 조금씩 바꾸며 회유층을 찾고 입질이 없으면 채비를 가볍게 운용하세요.',학꽁치:'표층을 노리는 가벼운 찌와 작은 바늘을 쓰고 미끼를 자주 확인하세요.'},
+'루어낚시':{우럭:'지그헤드와 소형 웜으로 바닥을 두드리되 밑걸림이 생기면 무게를 낮추세요.',광어:'바닥층을 유지하는 웜 리트리브로 모래와 암반의 경계를 통과시키세요.',볼락:'소형 웜을 천천히 감으며 구조물 주변의 밝음과 어둠 경계를 공략하세요.',무늬오징어:'에기를 가라앉힌 뒤 2~3회 저킹하고 폴링 시간을 충분히 주세요.',삼치:'작은 메탈을 중상층에서 빠르게 감으며 회유 방향을 탐색하세요.',고등어:'메탈이나 웜을 중층에서 일정 속도로 운용해 회유층을 찾으세요.'}};
+function fmtTime(s){return s?String(s).slice(11,16):'--:--'}
+function bestTimeFor(s,f,t){
+ const fc=spotForecasts[s.name];if(!fc||!fc.sunrise||!fc.sunset)return '06:00–08:00 · 16:00–18:00 (일출·일몰 기준 추정)';
+ const shift=(time,mins)=>{let d=new Date(time);d.setMinutes(d.getMinutes()+mins);return d.toTimeString().slice(0,5)};
+ const dawn=fc.sunrise,dusk=fc.sunset;
+ if(t==='원투낚시')return shift(dawn,-30)+'–'+shift(dawn,90)+' · '+shift(dusk,-90)+'–'+shift(dusk,30);
+ if(t==='찌낚시')return shift(dawn,-30)+'–'+shift(dawn,120)+' · '+shift(dusk,-120)+'–'+shift(dusk,30);
+ return shift(dawn,-45)+'–'+shift(dawn,75)+' · '+shift(dusk,-75)+'–'+shift(dusk,45);
+}
+function tideAdviceText(){const nowHM=new Date().toTimeString().slice(0,5),nextTide=currentTideEvents.find(x=>x.time>=nowHM);return currentTideEvents.length?(nextTide?'다음 '+nextTide.kind+' '+nextTide.time+' · 전후 1~2시간은 참고 공략 시간':'오늘 조석 시각이 지났습니다. 내일 물때를 확인하세요.'):'물때 미연동 — 조석 API 연결 후 표시됩니다.'}
+function renderSpots(list,f,t){
+ $('spots').innerHTML=list.map(s=>{const fc=spotForecasts[s.name]||{},wx=fc.wind==null?'예보 조회 중':('풍속 '+Math.round(fc.wind)+' km/h · 파고 '+(fc.wave==null?'N/A':fc.wave.toFixed(1)+' m'));
+ const styleTip=styleTips[t]?.[f]||((t==='원투낚시')?'바닥 지형을 확인하며 채비를 천천히 끌고, 밑걸림이 심하면 투척 위치를 옮기세요.':t==='찌낚시'?'수심과 찌밑을 단계적으로 조절해 입질층을 찾고, 조류에 미끼가 자연스럽게 흐르게 하세요.':'가벼운 채비부터 시작해 바닥·중층·표층을 차례로 탐색하고 입질 수심을 기록하세요.');
+ const weatherPenalty=(fc.wave>1.2?-22:fc.wave>.7?-10:0)+(fc.wind>9?-15:fc.wind>6?-7:0);
+ const score=Math.max(20,Math.min(96,55+(s.fish.includes(f)?24:-15)+weatherPenalty));
+ return '<article class="spot"><div class="score">추천 '+score+'점</div><h3>'+s.area+' '+s.name+'</h3><div class="meta">'+f+' · '+t+' · '+(s.fish.includes(f)?'어종 적합':'대체 포인트')+'</div><p>'+s.ground+'</p><p><b>'+t+' 공략법</b><br>'+styleTip+' '+s.tip+'</p><p><b>'+f+' 팁</b><br>'+tips[f]+'</p><p><b>이 포인트 예보</b><br>'+wx+(fc.temp==null?'':' · 기온 '+Math.round(fc.temp)+'°')+'</p><div class="meta">◷ 최적 시간(추정): '+bestTimeFor(s,f,t)+'</div><p class="meta">🌊 물때 참고: '+tideAdviceText()+'</p><a class="link" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(s.q)+'" target="_blank" rel="noopener">지도 열기 ↗</a></article>'}).join('');
+}
+async function loadSpotForecasts(list){
+ await Promise.all(list.map(async s=>{if(spotForecasts[s.name]?.loaded)return;const c=spotCoords[s.name];if(!c)return;
+ try{const u='https://api.open-meteo.com/v1/forecast?latitude='+c[0]+'&longitude='+c[1]+'&current=temperature_2m,wind_speed_10m&daily=sunrise,sunset&timezone=Asia%2FSeoul&forecast_days=1';
+ const mr='https://marine-api.open-meteo.com/v1/marine?latitude='+c[0]+'&longitude='+c[1]+'&hourly=wave_height&timezone=Asia%2FSeoul&forecast_days=1';
+ const [wr,mrres]=await Promise.all([fetch(u),fetch(mr)]);if(!wr.ok)throw Error();const wd=await wr.json(),md=mrres.ok?await mrres.json():null;
+ const now=wd.current.time,idx=md?.hourly?.time?.findIndex(x=>x>=now)??-1,w=idx>=0?md.hourly.wave_height[idx]:null;
+ spotForecasts[s.name]={loaded:true,temp:wd.current.temperature_2m,wind:wd.current.wind_speed_10m,wave:w==null?null:Number(w),sunrise:wd.daily?.sunrise?.[0],sunset:wd.daily?.sunset?.[0]};
+ }catch(e){spotForecasts[s.name]={loaded:true,temp:null,wind:null,wave:null,sunrise:null,sunset:null}}}));
+ const f=$('fish').value,t=$('style').value,a=$('area').value;
+ const updated=spots.filter(s=>(a==="전체"||s.area===a)&&s.types.includes(t)).filter(s=>list.some(x=>x.name===s.name));
+ renderSpots(updated.slice(0,4),f,t);
+}
+function recommend(){
+ const f=$('fish').value,t=$('style').value,a=$('area').value;
+ const list=spots.filter(s=>(a==="전체"||s.area===a)&&s.types.includes(t)).map(s=>({...s,score:Math.max(20,Math.min(96,55+(s.fish.includes(f)?24:-15)))})).sort((x,y)=>y.score-x.score).slice(0,4);
+ $('summary').textContent=f+' · '+t+' · '+a+' 지역 기준 — 각 포인트 좌표의 예보를 별도로 표시합니다.';
+ renderSpots(list,f,t);loadSpotForecasts(list);
+}
 async function load(){const station=$('area').value==="전체"?"속초":$('area').value,c=coords[station]||coords.속초;$('status').textContent=station+' 대표 지점 예보 조회 중…';try{const u='https://api.open-meteo.com/v1/forecast?latitude='+c[0]+'&longitude='+c[1]+'&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m&hourly=precipitation_probability&timezone=Asia%2FSeoul&forecast_days=1';const r=await fetch(u);if(!r.ok)throw Error();const d=await r.json(),v=d.current;$('temp').textContent=Math.round(v.temperature_2m)+'°';$('feel').textContent='체감 '+Math.round(v.apparent_temperature)+'° · 습도 '+v.relative_humidity_2m+'%';$('wind').textContent=Math.round(v.wind_speed_10m)+' km/h';$('winddir').textContent='풍향 '+Math.round(v.wind_direction_10m)+'°';weather.wind=v.wind_speed_10m;const i=d.hourly.time.findIndex(x=>x>=v.time);$('rain').textContent=(i<0?'--':d.hourly.precipitation_probability[i])+'%';$('sky').textContent=({0:'맑음',1:'대체로 맑음',2:'구름',3:'흐림',45:'안개',48:'안개',61:'비',63:'비',65:'강한 비',71:'눈',80:'소나기',95:'뇌우'})[v.weather_code]||'변화 가능';try{const mr=await fetch('https://marine-api.open-meteo.com/v1/marine?latitude='+c[0]+'&longitude='+c[1]+'&hourly=wave_height&timezone=Asia%2FSeoul&forecast_days=1');const md=await mr.json(),j=md.hourly.time.findIndex(x=>x>=v.time),w=j>=0?md.hourly.wave_height[j]:null;weather.wave=Number(w)||0;$('wave').textContent=w==null?'N/A':Number(w).toFixed(1)+' m'}catch(e){$('wave').textContent='N/A';weather.wave=0}$('updated').textContent=station+' · 기준 '+v.time.replace('T',' ')+' · Open-Meteo 예보값(현장과 차이 가능)';$('status').textContent='예보를 반영해 추천 점수를 갱신했습니다.';recommend()}catch(e){$('status').textContent='예보를 불러오지 못했습니다. 일반 포인트 정보로 추천합니다.';$('updated').textContent='네트워크 연결을 확인하고 다시 시도하세요.'} }
 $('go').onclick=recommend;$('fish').onchange=recommend;$('style').onchange=recommend;$('area').onchange=()=>{recommend();load();loadTide()};$('refresh').onclick=load;$('saveTideKey').onclick=()=>{const key=$('tideKey').value.trim();if(!key){setTideStatus('먼저 API 인증키를 입력해 주세요.');return}try{localStorage.setItem(TIDE_KEY_STORAGE,key);setTideStatus('인증키를 이 브라우저에 저장했습니다. 물때를 조회합니다.');loadTide()}catch(e){setTideStatus('브라우저 저장에 실패했습니다. 시크릿 모드인지 확인해 주세요.')}};$('loadTide').onclick=loadTide;$('tideKey').value=getTideKey();recommend();load();loadTide();
 </script></body></html>
